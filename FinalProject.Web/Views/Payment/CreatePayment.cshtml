@@ -11,6 +11,10 @@
     {
         <div class="alert alert-danger">@msg</div>
     }
+    @if (TempData["SuccessMessage"] is string successMsg)
+    {
+        <div class="alert alert-success">@successMsg</div>
+    }
 
     <form asp-action="CreatePayment" method="post" class="needs-validation" novalidate>
         <div class="mb-3">
@@ -46,10 +50,28 @@
             <span asp-validation-for="Purpose" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id="submitButton" type="submit" class="btn btn-primary" disabled>Submit</button>
     </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const form = document.querySelector('.needs-validation');
+            const submitBtn = document.getElementById('submitButton');
+            const validator = $(form).data('validator') || $(form).validate();
+
+            function toggle() {
+                submitBtn.disabled = !$(form).valid();
+            }
+
+            $(form).on('input change', function (e) {
+                validator.element(e.target);
+                toggle();
+            });
+
+            toggle();
+        })();
+    </script>
 }

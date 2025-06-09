@@ -35,7 +35,13 @@ namespace FinalProject.Web.Controllers
             }
 
             var accounts = await _bankAccountService.GetAllUserBankAccounts(HttpContext.Session.GetInt32("UserId").Value);
-            ViewBag.BankAccounts = accounts.Accounts;
+            var viewAccounts = accounts.Accounts.Select(a => new BankAccountViewModel
+            {
+                BankAccountId = a.BankAccountId,
+                IBAN = a.IBAN,
+                Balance = a.Balance
+            }).ToList();
+            ViewBag.BankAccounts = viewAccounts;
             return View();
         }
         [HttpPost]
@@ -52,12 +58,24 @@ namespace FinalProject.Web.Controllers
             {
                 TempData["ErrorMessage"] = "Невалиден IBAN на получател";
                 var accounts = await _bankAccountService.GetAllUserBankAccounts(HttpContext.Session.GetInt32("UserId").Value);
-                ViewBag.BankAccounts = accounts.Accounts;
+                var viewAccounts = accounts.Accounts.Select(a => new BankAccountViewModel
+                {
+                    BankAccountId = a.BankAccountId,
+                    IBAN = a.IBAN,
+                    Balance = a.Balance
+                }).ToList();
+                ViewBag.BankAccounts = viewAccounts;
                 return View(model);
             }
 
             var accountsList = await _bankAccountService.GetAllUserBankAccounts(HttpContext.Session.GetInt32("UserId").Value);
-            ViewBag.BankAccounts = accountsList.Accounts;
+            var accountsViewList = accountsList.Accounts.Select(a => new BankAccountViewModel
+            {
+                BankAccountId = a.BankAccountId,
+                IBAN = a.IBAN,
+                Balance = a.Balance
+            }).ToList();
+            ViewBag.BankAccounts = accountsViewList;
 
             if (!ModelState.IsValid)
             {

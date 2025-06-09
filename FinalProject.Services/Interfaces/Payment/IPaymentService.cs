@@ -6,5 +6,6 @@ namespace FinalProject.Services.Interfaces.Payment
     {
         Task<CreatePaymentResponse> CreatePayment(CreatePaymentRequest request);
         Task<GetAllUserPaymentsResponse> GetAllUserPayments(int userId);
+        Task<UpdatePaymentResponse> UpdatePaymentStatus(UpdatePaymentRequest request);
     }
 }

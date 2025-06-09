@@ -1,4 +1,5 @@
 ﻿using FinalProject.Models;
+using FinalProject.Repository.Helpers;
 using FinalProject.Repository.Interfaces.BankAccount;
 using FinalProject.Repository.Interfaces.Payment;
 using FinalProject.Repository.Interfaces.UserToAccount;
@@ -98,6 +99,99 @@ namespace FinalProject.Services.Implementations.Payment
             return new GetAllUserPaymentsResponse
             {
                 Payments = paymentInfos
+            };
+        }
+
+        public async Task<UpdatePaymentResponse> UpdatePaymentStatus(UpdatePaymentRequest request)
+        {
+            if (request.PaymentId <= 0 || string.IsNullOrEmpty(request.Status))
+            {
+                return new UpdatePaymentResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Невалидни данни за oдобрение."
+                };
+            }
+
+            var payment = await _paymentRepository.RetrieveAsync(request.PaymentId);
+            if (payment == null)
+            {
+                return new UpdatePaymentResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Плащането не е намерено."
+                };
+            }
+            if (payment.Status != "ИЗЧАКВА")
+            {
+                return new UpdatePaymentResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Плащането вече е обработено."
+                };
+            }
+
+
+            var account = await _bankAccountRepository.RetrieveAsync(payment.BankAccountId);
+            if (request.Status == "ОДОБРЕНО" && payment.Credit > account.Balance)
+            {
+                return new UpdatePaymentResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Недостатъчна наличност по сметка за одобрение на плащането."
+                };
+            }
+
+            var isUpdated = await _paymentRepository.UpdateAsync(request.PaymentId, new PaymentUpdate { Status = request.Status });
+            if (!isUpdated)
+            {
+                return new UpdatePaymentResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Грешка при обновяване на плащането."
+                };
+            }
+            if (request.Status == "ОДОБРЕНО")
+            {
+                var bankAccount = await _bankAccountRepository.RetrieveAsync(payment.BankAccountId);
+                if (bankAccount == null)
+                {
+                    return new UpdatePaymentResponse
+                    {
+                        Success = false,
+                        ErrorMessage = "Сметката не е намерена."
+                    };
+                }
+                bankAccount.Balance -= payment.Credit;
+                var isBalanceUpdated = await _bankAccountRepository.UpdateAsync(payment.BankAccountId, new BankAccountUpdate { Balance = bankAccount.Balance });
+                if (!isBalanceUpdated)
+                {
+                    return new UpdatePaymentResponse
+                    {
+                        Success = false,
+                        ErrorMessage = "Грешка при обновяване на баланса на сметката."
+                    };
+                }
+
+                var bankAccounts = await _bankAccountRepository.RetrieveCollectionAsync(new BankAccountFilter()).ToListAsync();
+
+                foreach (var bAccount in bankAccounts)
+                {
+                    if (bAccount.IBAN == payment.RecieverIBAN)
+                    {
+                        bAccount.Balance += payment.Credit;
+                    }
+                }
+                return new UpdatePaymentResponse
+                {
+                    Success = true,
+                    ErrorMessage = "Плащането е одобрено успешно."
+                };
+            }
+            return new UpdatePaymentResponse
+            {
+                Success = true,
+                ErrorMessage = "Плащането е отказано успешно."
             };
         }
 
