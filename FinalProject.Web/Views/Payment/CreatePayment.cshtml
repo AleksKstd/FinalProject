@@ -1,4 +1,55 @@
 ﻿@model CreatePaymentViewModel
 @{
-	ViewData["Title"] = "Create Payment";
+    ViewData["Title"] = "Create Payment";
+    var accounts = ViewBag.BankAccounts as List<BankAccountViewModel>;
+}
+
+<div class="container mt-4">
+    <h2>Create Payment</h2>
+
+    @if (TempData["ErrorMessage"] is string msg)
+    {
+        <div class="alert alert-danger">@msg</div>
+    }
+
+    <form asp-action="CreatePayment" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label asp-for="BankAccountId" class="form-label">Source Account</label>
+            <select asp-for="BankAccountId" class="form-select" required>
+                <option value="">Select...</option>
+                @if (accounts != null)
+                {
+                    foreach (var acc in accounts)
+                    {
+                        <option value="@acc.BankAccountId">@acc.IBAN (Balance: @acc.Balance.ToString("F2"))</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="BankAccountId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="RecieverIBAN" class="form-label"></label>
+            <input asp-for="RecieverIBAN" class="form-control" required />
+            <span asp-validation-for="RecieverIBAN" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Credit" class="form-label"></label>
+            <input asp-for="Credit" class="form-control" type="number" step="0.01" min="0.01" required />
+            <span asp-validation-for="Credit" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Purpose" class="form-label"></label>
+            <input asp-for="Purpose" class="form-control" required />
+            <span asp-validation-for="Purpose" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

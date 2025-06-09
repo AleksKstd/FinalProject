@@ -9,6 +9,10 @@ using FinalProject.Services.Interfaces.BankAccount;
 using FinalProject.Services.Implementations.BankAccount;
 using FinalProject.Repository.Interfaces.UserToAccount;
 using FinalProject.Repository.Implementations.UserToAccount;
+using FinalProject.Repository.Interfaces.Payment;
+using FinalProject.Repository.Implementations.Payment;
+using FinalProject.Services.Interfaces.Payment;
+using FinalProject.Services.Implementations.Payment;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,9 +22,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBankAccountRepository, BankAccountRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserToAccountRepository, UserToAccountRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 ConnectionFactory.SetConnectionString(
     builder.Configuration.GetConnectionString("DefaultConnection"));

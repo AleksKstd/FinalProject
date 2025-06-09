@@ -16,11 +16,12 @@ namespace FinalProject.Services.Implementations.Payment
         {
             _paymentRepository = paymentRepository;
             _userToAccountRepository = userToAccountRepository;
+            _bankAccountRepository = bankAccountRepository;
         }
         public async Task<CreatePaymentResponse> CreatePayment(CreatePaymentRequest request)
         {
             if (request.UserId <= 0 || request.BankAccountId <= 0 ||
-                request.RecieverIBAN.Length < 22 || request.RecieverIBAN.Length > 22 ||
+                request.RecieverIBAN.Length != 22 ||
                 request.Credit <= 0 ||
                 request.Purpose.Length > 32 || request.Purpose.Length <= 0)
             {
@@ -80,6 +81,26 @@ namespace FinalProject.Services.Implementations.Payment
             };
 
         }
+
+        public async Task<GetAllUserPaymentsResponse> GetAllUserPayments(int userId)
+        {
+            if(userId<=0)
+            {
+                return new GetAllUserPaymentsResponse
+                {
+                    Payments = new List<PaymentInfo>()
+                };
+            }
+
+            var payments = await _paymentRepository.RetrieveCollectionAsync(new PaymentFilter { UserId = userId }).ToListAsync();
+            var paymentInfos = payments.Select(payment => MapToPaymentInfo(payment)).ToList();
+
+            return new GetAllUserPaymentsResponse
+            {
+                Payments = paymentInfos
+            };
+        }
+
         private PaymentInfo MapToPaymentInfo(Models.Payment payment)
         {
             return new PaymentInfo
