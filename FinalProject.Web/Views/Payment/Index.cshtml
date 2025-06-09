@@ -28,7 +28,7 @@
         @foreach (var payment in Model.Payments)
         {
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 payment-card">
                     <div class="card-body">
                         <h5 class="card-title">Плащане №@payment.PaymentId</h5>
                         <p class="card-text"><strong>IBAN:</strong> @payment.RecieverIBAN</p>
@@ -71,3 +71,7 @@
         }
     </div>
 </div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
+}

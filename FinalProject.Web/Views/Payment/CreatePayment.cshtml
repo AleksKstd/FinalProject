@@ -50,7 +50,7 @@
             <span asp-validation-for="Purpose" class="text-danger"></span>
         </div>
 
-        <button id="submitButton" type="submit" class="btn btn-primary" disabled>Потвърди заявка за превод</button>
+        <button id="submitButton" type="submit" class="btn btn-success" disabled>Потвърди заявка за превод</button>
     </form>
 </div>
 
@@ -74,4 +74,8 @@
             toggle();
         })();
     </script>
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
 }

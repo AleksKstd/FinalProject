@@ -1,0 +1,23 @@
+﻿.home-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .home-table th,
+    .home-table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--secondary-color);
+    }
+
+    .home-table tr:hover {
+        background-color: var(--secondary-color);
+        color: #fff;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+@media (max-width: 576px) {
+    .home-table th:nth-child(2),
+    .home-table td:nth-child(2) {
+        display: none;
+    }
+}

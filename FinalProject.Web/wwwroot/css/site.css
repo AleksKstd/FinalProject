@@ -2,6 +2,8 @@
 :root {
     --bs-primary: #a60f1c;
     --bs-primary-rgb: 166, 15, 28;
+    --primary-color: var(--bs-primary);
+    --secondary-color: #6c757d;
 }
 
 html {

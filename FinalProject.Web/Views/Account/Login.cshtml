@@ -5,7 +5,7 @@
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-4">
-        <div class="card shadow">
+        <div class="card shadow login-card">
             <div class="card-header bg-primary text-white text-center py-3">
                 <h3 class="mb-0">Вход</h3>
             </div>
@@ -33,10 +33,14 @@
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Вход</button>
+                        <button type="submit" class="btn btn-outline-secondary btn-lg">Вход</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+}
