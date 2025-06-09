@@ -14,7 +14,6 @@ namespace FinalProject.Repository.Implementations.User
                 "UserId",
                 "Username",
                 "Password",
-                "Email",
                 "FullName"
             };
         }
@@ -31,7 +30,6 @@ namespace FinalProject.Repository.Implementations.User
                 UserId = Convert.ToInt32(reader["UserId"]),
                 Username = Convert.ToString(reader["Username"]),
                 Password = Convert.ToString(reader["Password"]),
-                Email = Convert.ToString(reader["Email"]),
                 FullName = Convert.ToString(reader["FullName"])
             };
         }

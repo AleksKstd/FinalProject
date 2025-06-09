@@ -13,10 +13,7 @@ namespace FinalProject.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
-        public string Email { get; set; }
-        [Required]
-        [StringLength(100, ErrorMessage = "Full name can't be longer than 100.")]
+        [StringLength(100, ErrorMessage = "FullName can't be longer than 100.")]
         public string FullName { get; set; }
     }
 }

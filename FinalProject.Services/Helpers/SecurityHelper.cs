@@ -5,6 +5,7 @@ namespace FinalProject.Services.Helpers
 {
     public static class SecurityHelper
     {
+        // DEFF PASS FOR EACH USER IS - pass123
         public static string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())

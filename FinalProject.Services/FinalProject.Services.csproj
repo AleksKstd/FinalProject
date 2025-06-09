@@ -17,17 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Rename3\" />
-    <Folder Include="DTOs\Rename2\" />
-    <Folder Include="DTOs\Rename1\" />
+    <Folder Include="DTOs\Payment\" />
+    <Folder Include="DTOs\UserToAccount\" />
     <Folder Include="DTOs\User\" />
-    <Folder Include="Implementations\Rename1\" />
-    <Folder Include="Implementations\Rename2\" />
-    <Folder Include="Implementations\Rename3\" />
+    <Folder Include="Implementations\Payment\" />
+    <Folder Include="Implementations\UserToAccount\" />
     <Folder Include="Implementations\User\" />
-    <Folder Include="Interfaces\Rename1\" />
-    <Folder Include="Interfaces\Rename2\" />
-    <Folder Include="Interfaces\Rename3\" />
+    <Folder Include="Interfaces\Payment\" />
+    <Folder Include="Interfaces\UserToAccount\" />
     <Folder Include="Interfaces\User\" />
   </ItemGroup>
 
