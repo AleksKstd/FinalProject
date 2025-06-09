@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -14,5 +15,24 @@
     }
 
     <h2>Акаунти</h2>
-    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Номер на Акаунт</th>
+                <th>IBAN</th>
+                <th>Наличност</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in Model.BankAccounts)
+            {
+                <tr>
+                    <td>@account.BankAccountId</td>
+                    <td>@account.IBAN</td>
+                    <td>@account.Balance.ToString("F2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>

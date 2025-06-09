@@ -17,13 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Payment\" />
     <Folder Include="DTOs\UserToAccount\" />
     <Folder Include="DTOs\User\" />
-    <Folder Include="Implementations\Payment\" />
     <Folder Include="Implementations\UserToAccount\" />
     <Folder Include="Implementations\User\" />
-    <Folder Include="Interfaces\Payment\" />
     <Folder Include="Interfaces\UserToAccount\" />
     <Folder Include="Interfaces\User\" />
   </ItemGroup>

@@ -63,9 +63,19 @@ namespace FinalProject.Repository.Implementations.BankAccount
                 return base.RetrieveCollectionAsync(commandFilter);
         }
 
-        public Task<bool> UpdateAsync(int objectId, BankAccountUpdate update)
+        public async Task<bool> UpdateAsync(int objectId, BankAccountUpdate update)
         {
-            throw new NotImplementedException();
+            SqlConnection connection = await ConnectionFactory.CreateConnectionAsync();
+
+            Update updateCommand = new Update(
+                connection,
+                GetTableName(),
+                "Balance",
+                objectId);
+
+            updateCommand.AddSetClause("Balance", update.Balance);
+
+            return await updateCommand.ExecuteNonQueryAsync() > 0;
         }
     }
 }

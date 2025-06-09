@@ -49,6 +49,7 @@ namespace FinalProject.Services.Implementations.BankAccount
                 var bankAccountInfo = MapToBankAccountInfo(bankAccount);
                 bankAccounts.Add(bankAccountInfo);
             }
+            bankAccounts = bankAccounts.OrderBy(b => b.BankAccountId).ToList();
 
             return new GetAllUserBankAccountsResponse
             {

@@ -3,15 +3,24 @@ using FinalProject.Services.Implementations.Authentication;
 using FinalProject.Services.Interfaces.Authentication;
 using FinalProject.Repository.Interfaces.User;
 using FinalProject.Repository.Implementations.User;
+using FinalProject.Repository.Interfaces.BankAccount;
+using FinalProject.Repository.Implementations.BankAccount;
+using FinalProject.Services.Interfaces.BankAccount;
+using FinalProject.Services.Implementations.BankAccount;
+using FinalProject.Repository.Interfaces.UserToAccount;
+using FinalProject.Repository.Implementations.UserToAccount;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-
+builder.Services.AddScoped<IBankAccountRepository, BankAccountRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserToAccountRepository, UserToAccountRepository>();
+
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IBankAccountService, BankAccountService>();
 
 ConnectionFactory.SetConnectionString(
     builder.Configuration.GetConnectionString("DefaultConnection"));
