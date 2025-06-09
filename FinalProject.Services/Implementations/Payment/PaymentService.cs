@@ -180,6 +180,7 @@ namespace FinalProject.Services.Implementations.Payment
                     if (bAccount.IBAN == payment.RecieverIBAN)
                     {
                         bAccount.Balance += payment.Credit;
+                        var isReceiverBalanceUpdated = await _bankAccountRepository.UpdateAsync(bAccount.BankAccountId, new BankAccountUpdate { Balance = bAccount.Balance });
                     }
                 }
                 return new UpdatePaymentResponse
