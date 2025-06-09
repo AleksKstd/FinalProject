@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    <PackageReference Include="System.Linq.Async.Queryable" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinalProject.Models\FinalProject.Models.csproj" />
+    <ProjectReference Include="..\FinalProject.Repository\FinalProject.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\Rename3\" />
+    <Folder Include="DTOs\Rename2\" />
+    <Folder Include="DTOs\Rename1\" />
+    <Folder Include="DTOs\User\" />
+    <Folder Include="Implementations\Rename1\" />
+    <Folder Include="Implementations\Rename2\" />
+    <Folder Include="Implementations\Rename3\" />
+    <Folder Include="Implementations\User\" />
+    <Folder Include="Interfaces\Rename1\" />
+    <Folder Include="Interfaces\Rename2\" />
+    <Folder Include="Interfaces\Rename3\" />
+    <Folder Include="Interfaces\User\" />
+  </ItemGroup>
+
+</Project>
