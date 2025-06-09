@@ -22,7 +22,7 @@ namespace FinalProject.Services.Implementations.Authentication
                 return new LoginResponse
                 {
                     Success = false,
-                    ErrorMessage = "Username and password are required"
+                    ErrorMessage = "Потребителското име и паролата са задължителни."
                 };
             }
 
@@ -37,7 +37,7 @@ namespace FinalProject.Services.Implementations.Authentication
                 return new LoginResponse
                 {
                     Success = false,
-                    ErrorMessage = "Invalid username or password"
+                    ErrorMessage = "Невалидно потребителско име или парола."
                 };
             }
 

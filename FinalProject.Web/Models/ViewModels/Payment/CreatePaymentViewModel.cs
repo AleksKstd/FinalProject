@@ -4,18 +4,18 @@ public class CreatePaymentViewModel
 {
     public int UserId { get; set; }
 
-    [Required(ErrorMessage = "Source account is required")]
+    [Required(ErrorMessage = "Трябва да посочите Ваша сметка")]
     public int BankAccountId { get; set; }
 
-    [Required(ErrorMessage = "IBAN is required")]
-    [RegularExpression(@"^[A-Z]{2}\d{2}[A-Z0-9]{18}$", ErrorMessage = "Invalid IBAN format")]
+    [Required(ErrorMessage = "IBAN на получателят е задължителен")]
+    [RegularExpression(@"^[A-Z]{2}\d{2}[A-Z0-9]{18}$", ErrorMessage = "Невалиден IBAN")]
     public string RecieverIBAN { get; set; }
 
-    [Required(ErrorMessage = "Amount is required")]
-    [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than zero")]
+    [Required(ErrorMessage = "Сумата за превода е задължителна")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "Сумата трябва да е по голяма от 0.00 BGN")]
     public decimal Credit { get; set; }
 
-    [Required(ErrorMessage = "Purpose is required")]
-    [StringLength(32, ErrorMessage = "Purpose must be 32 characters or less")]
+    [Required(ErrorMessage = "Цел на превода е задължителна")]
+    [StringLength(32, ErrorMessage = "Целта трябва да е по малко от 32 символа")]
     public string Purpose { get; set; }
 }

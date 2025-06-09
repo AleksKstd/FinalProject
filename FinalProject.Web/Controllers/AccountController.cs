@@ -42,7 +42,7 @@ namespace FinalProject.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["ErrorMessage"] = result.ErrorMessage ?? "Invalid username or password.";
+            ViewData["ErrorMessage"] = result.ErrorMessage ?? "Невалидно име или парола.";
             return View(model);
         }
 

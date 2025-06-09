@@ -141,6 +141,14 @@ namespace FinalProject.Services.Implementations.Payment
                     ErrorMessage = "Недостатъчна наличност по сметка за одобрение на плащането."
                 };
             }
+            if(account.BankAccountId == payment.BankAccountId)
+            {
+                return new UpdatePaymentResponse
+                {
+                    Success = false,
+                    ErrorMessage = "Не може да се одобри плащане към същата сметка."
+                };
+            }
 
             var isUpdated = await _paymentRepository.UpdateAsync(request.PaymentId, new PaymentUpdate { Status = request.Status });
             if (!isUpdated)
@@ -153,8 +161,7 @@ namespace FinalProject.Services.Implementations.Payment
             }
             if (request.Status == "ОДОБРЕНО")
             {
-                var bankAccount = await _bankAccountRepository.RetrieveAsync(payment.BankAccountId);
-                if (bankAccount == null)
+                if (account == null)
                 {
                     return new UpdatePaymentResponse
                     {
@@ -162,8 +169,8 @@ namespace FinalProject.Services.Implementations.Payment
                         ErrorMessage = "Сметката не е намерена."
                     };
                 }
-                bankAccount.Balance -= payment.Credit;
-                var isBalanceUpdated = await _bankAccountRepository.UpdateAsync(payment.BankAccountId, new BankAccountUpdate { Balance = bankAccount.Balance });
+                account.Balance -= payment.Credit;
+                var isBalanceUpdated = await _bankAccountRepository.UpdateAsync(payment.BankAccountId, new BankAccountUpdate { Balance = account.Balance });
                 if (!isBalanceUpdated)
                 {
                     return new UpdatePaymentResponse

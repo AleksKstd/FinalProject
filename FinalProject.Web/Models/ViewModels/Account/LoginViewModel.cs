@@ -2,9 +2,9 @@
 
 public class LoginViewModel
 {
-    [Required(ErrorMessage = "Username is Required")]
+    [Required(ErrorMessage = "Потребителското име е задължително.")]
     public string Username { get; set; }
-    [Required(ErrorMessage = "Password is required")]
+    [Required(ErrorMessage = "Паролата е задължителна.")]
     [DataType(DataType.Password)]
     public string Password { get; set; }
 
