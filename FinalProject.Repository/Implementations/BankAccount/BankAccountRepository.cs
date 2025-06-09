@@ -70,7 +70,7 @@ namespace FinalProject.Repository.Implementations.BankAccount
             Update updateCommand = new Update(
                 connection,
                 GetTableName(),
-                "Balance",
+                "BankAccountId",
                 objectId);
 
             updateCommand.AddSetClause("Balance", update.Balance);

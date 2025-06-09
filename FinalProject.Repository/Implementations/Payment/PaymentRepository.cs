@@ -75,7 +75,7 @@ namespace FinalProject.Repository.Implementations.Payment
             Update updateCommand = new Update(
                 connection,
                 GetTableName(),
-                "Status",
+                "PaymentId",
                 objectId);
 
             updateCommand.AddSetClause("Status", update.Status);

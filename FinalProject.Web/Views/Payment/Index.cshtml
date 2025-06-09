@@ -1,0 +1,59 @@
+﻿@model PaymentStatusViewModel
+@{
+    ViewData["Title"] = "Payments";
+    var currentSort = ViewBag.CurrentSort as string;
+}
+
+<div class="container mt-4">
+    <h2>Плащания</h2>
+
+    <form asp-action="Index" method="get" class="mb-3">
+        <select name="sortOrder" class="form-select w-auto" onchange="this.form.submit()">
+            <option value="status" selected="@(currentSort == "status" ? "selected" : null)">Сортирай по статус</option>
+            <option value="date_desc" selected="@(string.IsNullOrEmpty(currentSort) || currentSort == "date_desc" ? "selected" : null)">Дата ↓</option>
+            <option value="date_asc" selected="@(currentSort == "date_asc" ? "selected" : null)">Дата ↑</option>
+        </select>
+    </form>
+
+    @if (TempData["ErrorMessage"] is string err)
+    {
+        <div class="alert alert-danger">@err</div>
+    }
+    @if (TempData["SuccessMessage"] is string succ)
+    {
+        <div class="alert alert-success">@succ</div>
+    }
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var payment in Model.Payments)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Плащане №@payment.PaymentId</h5>
+                        <p class="card-text"><strong>IBAN:</strong> @payment.RecieverIBAN</p>
+                        <p class="card-text"><strong>Сума:</strong> @payment.Credit.ToString("F2")</p>
+                        <p class="card-text"><strong>Основание:</strong> @payment.Purpose</p>
+                        <p class="card-text"><strong>Дата:</strong> @payment.PaymentDate.ToString("yyyy-MM-dd HH:mm")</p>
+                        <p class="card-text"><strong>Статус:</strong> @payment.Status</p>
+                    </div>
+                    @if (payment.Status == "ИЗЧАКВА")
+                    {
+                        <div class="card-footer d-flex justify-content-between">
+                            <form asp-action="UpdateStatus" method="post" class="me-1">
+                                <input type="hidden" name="paymentId" value="@payment.PaymentId" />
+                                <input type="hidden" name="status" value="ОДОБРЕНО" />
+                                <button type="submit" class="btn btn-success btn-sm">Одобри</button>
+                            </form>
+                            <form asp-action="UpdateStatus" method="post">
+                                <input type="hidden" name="paymentId" value="@payment.PaymentId" />
+                                <input type="hidden" name="status" value="ОТКАЗАНО" />
+                                <button type="submit" class="btn btn-danger btn-sm">Откажи</button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

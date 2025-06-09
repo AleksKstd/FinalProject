@@ -16,7 +16,7 @@ namespace FinalProject.Web.Controllers
             _paymentService = paymentService;
             _bankAccountService = bankAccountService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             
             if (!HttpContext.Session.GetInt32("UserId").HasValue)
@@ -24,7 +24,71 @@ namespace FinalProject.Web.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            return View();
+            var userId = HttpContext.Session.GetInt32("UserId").Value;
+            var paymentsResponse = await _paymentService.GetAllUserPayments(userId);
+
+            var payments = paymentsResponse.Payments.Select(p => new PaymentStatusInfo
+            {
+                PaymentId = p.PaymentId,
+                UserId = p.UserId,
+                BankAccountId = p.BankAccountId,
+                RecieverIBAN = p.RecieverIBAN,
+                Credit = p.Credit,
+                Purpose = p.Purpose,
+                PaymentDate = p.PaymentDate,
+                Status = p.Status
+            }).ToList();
+
+            ViewBag.CurrentSort = sortOrder;
+
+            switch (sortOrder)
+            {
+                case "date_asc":
+                    payments = payments.OrderBy(p => p.PaymentDate).ToList();
+                    break;
+                case "status":
+                    payments = payments
+                        .OrderBy(p => p.Status == "ИЗЧАКВА" ? 0 : 1)
+                        .ThenByDescending(p => p.PaymentDate)
+                        .ToList();
+                    break;
+                default:
+                    payments = payments.OrderByDescending(p => p.PaymentDate).ToList();
+                    break;
+            }
+
+            var model = new PaymentStatusViewModel
+            {
+                Payments = payments
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int paymentId, string status)
+        {
+            if (!HttpContext.Session.GetInt32("UserId").HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var result = await _paymentService.UpdatePaymentStatus(new UpdatePaymentRequest
+            {
+                PaymentId = paymentId,
+                Status = status
+            });
+
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = result.ErrorMessage;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.ErrorMessage;
+            }
+
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public async Task<IActionResult> CreatePayment()
