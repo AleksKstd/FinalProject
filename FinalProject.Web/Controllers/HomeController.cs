@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using FinalProject.Services.Interfaces.BankAccount;
 using FinalProject.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +7,10 @@ namespace FinalProject.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IBankAccountService _bankAccountService;
+        public HomeController(IBankAccountService bankAccountService)
         {
-            _logger = logger;
+            _bankAccountService = bankAccountService;
         }
 
         public async Task<IActionResult> Index()
@@ -19,7 +19,27 @@ namespace FinalProject.Web.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            return View();
+
+            var bankAccounts = await _bankAccountService.GetAllUserBankAccounts(HttpContext.Session.GetInt32("UserId").Value);
+
+            var usersAccounts = new List<BankAccountViewModel>();
+
+            foreach (var bankAccount in bankAccounts.Accounts)
+            {
+                usersAccounts.Add(new BankAccountViewModel
+                {
+                    BankAccountId = bankAccount.BankAccountId,
+                    IBAN = bankAccount.IBAN,
+                    Balance = bankAccount.Balance
+                });
+            }
+
+            var viewModel = new HomeViewModel
+            {
+                BankAccounts = usersAccounts
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

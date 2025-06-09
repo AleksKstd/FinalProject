@@ -1,12 +1,16 @@
 using FinalProject.Repository;
 using FinalProject.Services.Implementations.Authentication;
 using FinalProject.Services.Interfaces.Authentication;
+using FinalProject.Repository.Interfaces.User;
+using FinalProject.Repository.Implementations.User;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 ConnectionFactory.SetConnectionString(

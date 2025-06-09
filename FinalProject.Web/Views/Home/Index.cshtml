@@ -2,7 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-primary">
+            Logout
+        </a>
+    </div>
+    @if (TempData["ErrorMessage"] is string msg)
+    {
+        <div class="alert alert-danger">@msg</div>
+    }
+
+    <h2>Акаунти</h2>
+    
 </div>
