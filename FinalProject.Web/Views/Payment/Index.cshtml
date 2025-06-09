@@ -35,7 +35,21 @@
                         <p class="card-text"><strong>Сума:</strong> @payment.Credit.ToString("F2") BGN</p>
                         <p class="card-text"><strong>Основание:</strong> @payment.Purpose</p>
                         <p class="card-text"><strong>Дата:</strong> @payment.PaymentDate.ToString("yyyy-MM-dd HH:mm")</p>
-                        <p class="card-text"><strong>Статус:</strong> @payment.Status</p>
+                        <p class="card-text">
+                            <strong>Статус:</strong>
+                            @if (payment.Status == "ОДОБРЕНО")
+                            {
+                                <span class="badge rounded-pill bg-success">@payment.Status</span>
+                            }
+                            else if (payment.Status == "ОТКАЗАНО")
+                            {
+                                <span class="badge rounded-pill bg-danger">@payment.Status</span>
+                            }
+                            else
+                            {
+                                <span class="badge rounded-pill bg-secondary">@payment.Status</span>
+                            }
+                        </p>
                     </div>
                     @if (payment.Status == "ИЗЧАКВА")
                     {

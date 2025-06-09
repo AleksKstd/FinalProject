@@ -49,7 +49,7 @@ namespace FinalProject.Web.Controllers
                 case "status":
                     payments = payments
                         .OrderBy(p => p.Status == "ИЗЧАКВА" ? 0 : 1)
-                        .ThenByDescending(p => p.PaymentDate)
+                        .ThenBy(p => p.Status == "ОДОБРЕНО" ? 0 : 1)
                         .ToList();
                     break;
                 default:
